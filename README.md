@@ -1,266 +1,221 @@
----
-
-# README for Docking Simulations
+# README for Docking Simulations with autodock.py 
 
 ---
 
 ## Preface for BYU Affiliates
 
-Molecular docking through `autodock.py` can be done in several ways. The easiest option for BYU students is using the on-campus supercomputer, which comes with all the necessary software pre-installed. Locally, you will only need PyMOL to visualize inputs (receptor, ligand, and search space) and outputs.
-
-> **CAUTION:** Avoid using the `sudo` command on the supercomputer. Attempts to use `sudo` will fail, but you may be flagged and face potential disciplinary action for repeated attempts.
+Molecular docking through `autodock.py` can be done in a few ways. The easiest for BYU students is through the supercomputer on campus. That way, all of the software is already installed correctly and set up for you. Using the supercomputer, you would likely only need PyMOL on your local PC to visualize the input receptor, input ligand, search space (Box), and output.
 
 ---
 
-## Steps to Interface with the BYU Supercomputer
+## How to Interface with the Supercomputer Using SSH Multiplexing
 
-### 1. Requesting an Account
+1. **Get an Account:**
+   - Request an account with the BYU Office of Research Computing (ORC) through their website ([rc.byu.edu](https://rc.byu.edu)). Use the button in the top right corner to fill out the prompted form.
+   - For molecular docking, request access to the group named `grp_MolecularDock` and its contents. Obtain your advisor's documented permission.
+     - Your advisor must send a confirmation message in a group support ticket to the ORC admin.
+   - After approval, attend in-person training from ORC staff.
 
-1. Visit [BYU Office of Research Computing (ORC)](https://rc.byu.edu) and request an account using the button in the top right corner.
-2. Obtain permission to access the group "grp\_MolecularDock."
-   - Your advisor must send a confirmation email to the ORC admin via a support ticket to document your need for an account and group access.
-3. Attend an in-person training session at ORC after your account is approved.
+2. **Set Up SSH Multiplexing:**
+   - Follow the instructions at [SSH Multiplexing Guide](https://rc.byu.edu/wiki/index.php?page=SSH+Multiplexing).
+   - Ensure you have the correct configuration file and, if on Windows, use the Windows Subsystem for Linux (WSL) with Ubuntu.
 
-### 2. Setting up SSH Multiplexing
+3. **Access the Supercomputer:**
+   - Open your terminal and start an SSH session:
+     - On macOS or Linux, type: `ssh orc`
+     - On Windows: Open PowerShell, type `ubuntu` to begin your Linux environment, and then `ssh orc`.
+   - Enter your password and verification code:
+     - Use the Duo Mobile app to generate the verification code. Set up a third-party account with `<your_username>@ssh.rc.byu.edu`.
 
-1. Follow the instructions on [SSH Multiplexing Wiki](https://rc.byu.edu/wiki/index.php?page=SSH+Multiplexing).
-2. For Windows users:
-   - Install the Windows Subsystem for Linux (WSL) and Ubuntu.
-   - Configure SSH multiplexing using the appropriate configuration files.
+4. **File Navigation:**
+   - Use terminal commands for Linux environments or WinSCP for a graphical interface on Windows.
 
-### 3. Connecting to the Supercomputer
+> **Note:** If you need assistance, ORC staff are available during work hours, and additional resources are on the [ORC website](https://rc.byu.edu).
 
-1. Open a terminal, type `ubuntu` first in PowerShell for Windows, and then type `ssh orc`.
-2. Authenticate using the BYU Duo Mobile app:
-   - Set up a third-party account with `<your_username>@ssh.rc.byu.edu` to receive a valid verification code.
-   - Enter the code to gain access. You will automatically be given a new code every 30 seconds. Any of them will work.
+---
 
-### 4. File Management on the Supercomputer
+## Command Line Syntax
 
-Use either terminal commands or a graphical user interface for efficient file management:
+Commands will look something like this:
+```bash
+python3 autodock.py -p -r path/to/receptor.pdb -l path/to/ligand.pdb
+```
 
-| Command                      | Description               |
-| ---------------------------- | ------------------------- |
-| `scp <from_file> <to_file>`  | Upload/download files     |
-| `rm <file>`                  | Remove a file             |
-| `mv <from_file> <to_file>`   | Move a file               |
-| `sbatch <submission_script>` | Submit a SLURM job script |
-| `scancel <submission_ID>`    | Cancel submitted jobs     |
-| `squeue -l -u <username>`    | Check job status          |
-| `fslquota`                   | Check system quota        |
+These commands can be executed locally (if all software is installed) or on the supercomputer through a job script.
 
-For Windows, it is recommended to use [WinSCP](https://winscp.net/) for a more intuitive file management interface.
-
-Please keep the supercomputer files intuitive and clean.
+> **Caution:** Never use the `sudo` command on the supercomputer. Doing so can result in disciplinary action.
 
 ---
 
 ## Software Requirements
+- PyMOL
+- Python 3
 
-The following software is required on your machine for docking on the supercomputer:
-
-- PyMOL&#x20;
-
-  - Used for visualizing the receptor protein and ligand molecule
-  - Used for visualizing the search space with a box. The ligand will only be simulated docking within the area of the box as long as you add the correct config file to the supercomputer and include it in the command.
-
-- Python 3 (preferably a recent version)
-
-The following software is required for docking that is run on your local machine. This is only recommended if you have no access to the BYU supercomputer or for single docking.
-
-- `autodock_vina`
-
+## Additional Requirements to Run Docking Locally
+- autodock_vina
 - OpenBabel
+- MGLTools 
 
-- MGLTools (compatible with Python 2.7)
-
-If you are docking on the BYU supercomputer, all of this necessary software is pre-installed on the supercomputer. No need to also have it locally.
+> **Note:** On the BYU supercomputer, autodock_vina, OpenBabel, and MGLTools are pre-installed. In this case, simply use PyMOL locally to visualize input/output structures and the search space (Box).
 
 ---
 
-## Cheat Sheet for Supercomputer
+## Supercomputer Command Cheat Sheet
 
-| Shortcut                                     | Description                       |
-| -------------------------------------------- | --------------------------------- |
-| `<username>@ssh.rc.byu.edu:/home/<username>` | Supercomputer user home directory |
-| `scp <from_file> <to_file>`                  | Upload/download files\*           |
-| `rm <file>`                                  | Remove a file\*                   |
-| `mv <from_file> <to_file>`                   | Move a file\*                     |
-| `sbatch <submission_script>`                 | Submit a SLURM job script         |
-| `scancel <submission_ID>`                    | Cancel submitted jobs             |
-| `squeue -l -u <username>`                    | Check job status                  |
-| `fslquota`                                   | Check system quota                |
-
-\*These actions are recommended to be done with [WinSCP](https://winscp.net/) if possible
+| Command                                      | Description                                  |
+|----------------------------------------------|----------------------------------------------|
+| `<username>@ssh.rc.byu.edu:/home/<username>` | Supercomputer user home address             |
+| `scp <from_file> <to_file>`                  | Upload or download files                    |
+| `rm <file>`                                  | Remove a file                               |
+| `mv <from_file> <to_file>`                   | Move files                                  |
+| `sbatch <submission_script>`                 | Submit a SLURM submission script           |
+| `scancel <submission_ID>`                    | Cancel submitted SLURM jobs                |
+| `squeue -l -u <username>`                    | Check the status of submitted jobs          |
+| `fslquota`                                   | Check the system quota                      |
+> **Note:** It is recommended to us WinSCP for file management on the supercomputer if possible. It gives a more traditional user interface so that it will look more familiar. There are equivalent softwares for macOS if needed.
 
 ---
 
 ## Description
 
-`autodock.py` is a Python script for molecular docking that:
+This README covers the usage of the `autodock.py` script. This script is used to:
 
-1. Defines the search space in PyMOL
-2. Prepares receptor and ligand files for input.
-3. Runs `autodock_vina` for docking simulations.
+1. Define the search space of the docking simulation. This is done with a config file which contains an X, Y, and Z coordinate for the center of the search space and the size of the box in every direction.
+2. Prepare receptor and ligand inputs (for single or library ligands). This should only be done on the supercomputer. 
+3. Run `autodock_vina` simulations.
+4. Give output for these simulations. 
 
-For help with the script, use the following command:
+### Requirements:
+1. A search box and center position.
+2. PDB file of receptor (turned into a PDBQT and prepared only on the supercomputer).
+3. PDB file of ligand(s) (turned into a PDBQT and prepared only on the supercomputer).
 
+For more information, navigate to the directory containing `autodock.py` and run:
 ```bash
 python3 autodock.py -h
 ```
 
-### Required Components for Docking Simulations
-
-1. A defined search box with center coordinates.
-2. PDB files for:
-   - Receptor protein (prepared into PDBQT files which are required for autodock\_vina. Only do this on the supercomputer).
-   - Ligand molecule(s) (prepared into PDBQT files which are required for autodock\_vina. Only do this on the supercomputer).
-
 ---
+Edited up to here. Please continue editing, then review with the word doc to ensure completeness
+## Instructions
 
-## Detailed Instructions
+### 1. Set Up Working Directory
 
-### 1. Setting Up the Working Directory
-
-Again, [WinSCP](https://winscp.net/) is recommended for file I/O
-
-Use the directory `~/groups/grp_MolecularDock/nobackup/archive/autodock_vina`. The `~` symbol refers to `/home/<username>`.
-
-You can create folders to organize inputs, outputs, and logs. For example:
-
+- For BYU supercomputer users, use the directory `~/groups/grp_MolecularDock/nobackup/archive/autodock_vina`.
+- Create folders to organize inputs, outputs, and logs using:
 ```bash
-python3 autodock.py -s test True -f 1
+python3 autodock.py -s <XXX> True -f <Number>
 ```
 
-- `-s`: Set up folders.
-- `True`: Turn on the numbering mechanism.
-- `-f`: Specify a working folder number.
+#### Examples:
+1. **Folder with numbering:**
+    ```bash
+    python3 autodock.py -s test True  # Creates test01/
+    python3 autodock.py -s test True  # Creates test02/
+    ```
 
-#### Examples
+2. **Without numbering:**
+    ```bash
+    python3 autodock.py -s test  # Overwrites previous folder "test/"
+    ```
 
-1. Specify folder name with numbering mechanism on:
+3. **Default folder:**
+    ```bash
+    python3 autodock.py -s  # Creates Dock01/
+    ```
 
-   ```bash
-   python3 autodock.py -s test True
-   ```
+### 2. Identify Search Box and Center Position
 
-   This will create folders like `test01/`, `test02/`, etc.
-
-2. Use `-f` to overwrite the numbering:
-
-   ```bash
-   python3 autodock.py -s test True -f 8
-   ```
-
-   Creates `test08/`.
-
-3. No folder name specified (default is `Dock`):
-
-   ```bash
-   python3 autodock.py -s
-   ```
-
-   Creates `Dock01/`, `Dock02/`, etc.
-
-### 2. Identifying the Search Box and Center Position
-
-1. Load structure(s) into PyMOL
+#### Using PyMOL:
+1. Load structures:
+    ```
+    fetch XXXX  # XXXX is the 4-digit PDB ID.
+    ```
+   Or drag and drop files into PyMOL.
 
 2. Visualize residues:
+    ```
+    show sticks
+    ```
 
-   1. Type into the PyMOL terminal:
-      ```bash
-      show sticks
-      ```
+3. Calculate the search box:
+    ```python
+    run autodock.py
+    Box('sele', X_size, Y_size, Z_size)
+    ```
+   Save configuration:
+    ```python
+    Box('sele', X_size, Y_size, Z_size, save='WORKING_FOLDER/config.txt')
+    ```
 
-3. Select residues:
-
-   - Click residues in PyMOL.
-   - To select multiple residues, hold `Shift` and drag to draw a box.
-     - It is recommended to simply select all residues. 
-   - To unselect, click the empty space or the selected residue again.
-
-4. Define the search box:
-
-   - Navigate to the working directory where autodock.py is located on your machine in PyMOL:
-     ```bash
-     cd /path/to/working/directory
-     ```
-   - Run the script:
-     ```bash
-     run autodock.py
-     ```
-   - Visualize the search space with a box: 
-     ```bash
-     Box('sele', X\_size, Y\_size, Z\_size, save='config.txt')
-     ```
-   - Replace `X_size`, `Y_size`, and `Z_size` with the desired box dimensions.
-
-5. Fine-tune the search box center:
-
-   - Manually move the white sphere (search box center) in PyMOL.
-   - Save the updated configuration file by running the `Box` command again.
-
-### 3. Preparing Receptor and Ligand Files
-
-**Important:** Receptor and ligand preparation must be done on the supercomputer.
-
-1. Prepare a single receptor or ligand:
-
-   ```bash
-   python3 autodock.py -p -r receptor.pdb -l ligand.pdb
-   ```
-
-2. Prepare multiple ligands:
-
-   - Place ligands in the `Ligands/` folder.
-   - Use:
-     ```bash
-     python3 autodock.py -p -l Ligands/*.pdb
-     ```
-
-3. Prepare ZINC ligands:
-
-   - Download ligands from [ZINC15](https://zinc15.docking.org).
-   - Run:
-     ```bash
-     python3 autodock.py -Z file.gz.wget working_folder 1000 False your_email@example.com
-     ```
+4. Fine-tune the center location by manually adjusting the white sphere in PyMOL. Once satisfied, redraw the box using:
+    ```python
+    Box('sele', X_size, Y_size, Z_size)
+    ```
 
 ---
 
-### 4. Running Docking Simulations
+### 3. Preparation of Receptor and Ligand PDBQT Files
 
-1. Single docking:
+> **Important:** Preparations must be done on the supercomputer.
 
+1. **Single Receptor or Ligand:**
    ```bash
-   python3 autodock.py -d -r receptor.pdbqt -l ligand.pdbqt -c config.txt
+   python3 autodock.py -p -r path/to/receptor.pdb -l path/to/ligand.pdb
+   ```
+   Use `-r` or `-l` individually if preparing only one file.
+
+2. **Multiple Ligands:**
+   ```bash
+   python3 autodock.py -p -l path/to/Ligands/*.pdb
    ```
 
-2. Library docking:
-   Create a SLURM job script:
+3. **Library of Ligands (ZINC or FDA-approved):** Follow additional instructions for downloading and segmenting files as described in the original documentation.
 
+---
+
+### 4. Run Autodock
+
+1. **Single Docking:**
    ```bash
-   python3 autodock.py -u vs your_email@example.com 9 Dock01 32 submit_test.sh
+   python3 autodock.py -d -r Dock01/Receptor/receptor.pdbqt -l Dock01/Ligand/ligand.pdbqt -c Dock01/config.txt
    ```
 
-3. Submit the SLURM job script:
-
+2. **SLURM Array System for Multiple Dockings:**
+   Generate a submission script:
+   ```bash
+   python3 autodock.py -u vs email@example.com 9 Dock01 32 submit_test.sh
+   ```
+   Submit the script using SLURM:
    ```bash
    sbatch submit_test.sh
    ```
 
+---
+
 ### 5. Data Analysis
 
-- Structural results are saved in `output/`.
-- Energy results are saved in `logs/`.
-- For virtual screening, results are in
-
- `logs/Virtual_screen_result.out`.
-
-To visualize docking results in PyMOL:
-
-1. Load the receptor and result files.
-2. Combine molecules to evaluate polar interactions (e.g., hydrogen bonds).
+- Results will be stored in the `output` and `logs` folders.
+- For visual analysis, combine receptor and ligand structures in PyMOL and use commands like:
+  ```
+  zoom organic
+  set transparency, 0.6
+  show surface
+  ```
+- Analyze polar contacts and interactions as described in the original document.
 
 ---
+
+### 6. Data Packaging
+
+Compress results into a `.tar.gz` file:
+```bash
+python3 autodock.py --package <working_folder> <tar_out> <master> <result_file_or_folder> <output_file_or_folder>
+```
+
+Use `tar` commands to manage compressed files, e.g., to extract or view contents.
+
+---
+
+For further details or troubleshooting, refer to the original document or consult the ORC resources.
+
