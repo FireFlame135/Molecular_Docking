@@ -1,5 +1,3 @@
-Here's your updated README with links to WinSCP included wherever it is mentioned:
-
 ---
 
 # README for Docking Simulations
