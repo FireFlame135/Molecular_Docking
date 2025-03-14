@@ -175,9 +175,9 @@ python3 autodock.py -s <XXX> True -f <Number>
    python3 autodock.py -p -l path/to/Ligands/*.pdb
    ```
 
-3. **Extremely Large Library of Ligands (ZINC or FDA-approved):**
+3. **Extremely Large Libraries of Ligands (ZINC or FDA-approved):**
 Be very careful with this. It's possible that this process could create many millions of ligand files, which would crash the system and make it unusable. Do not do this if you aren't certain of how it works.
-For this reason, you must refer to the other file on virtual screening in this repository (yet to be added, with link).
+For this reason, you must refer to the other file on virtual screening and extreme;y large libraries of ligands, [VirtualScreeningREADME.md](VirtualScreeningREADME.md). Be sure to read and understand the risks of this beforehand.
 
 
 ---
