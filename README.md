@@ -127,28 +127,33 @@ python3 autodock.py -s <XXX> True -f <Number>
 ### 2. Identify Search Box and Center Position
 
 #### Using PyMOL:
-1. Load structures:
+1. **Load structures:**
+    Drag and drop receptor file into PyMOL.
+    Or alternatively, use the following command:
     ```
     fetch XXXX  # XXXX is the 4-digit PDB ID.
     ```
-   Or drag and drop files into PyMOL.
 
-2. Visualize residues:
+2. **Visualize residues:**
     ```
     show sticks
     ```
 
-3. Calculate the search box:
+3. **Calculate the search box:**
     ```python
     run autodock.py
     Box('sele', X_size, Y_size, Z_size)
     ```
-   Save configuration:
+    Or, to specify the center of the box, use the following command:
     ```python
-    Box('sele', X_size, Y_size, Z_size, save='WORKING_FOLDER/config.txt')
+    Box([4.6772785, -7.5425525, 48.58454], X_size, Y_size, Z_size)
+    ```
+    To save configuration:
+    ```python
+    Box('sele', X_size, Y_size, Z_size, save='<WORKING_FOLDER>/config.txt')
     ```
 
-4. Fine-tune the center location by manually adjusting the white sphere in PyMOL. Once satisfied, redraw the box using:
+4. **You can also fine-tune the center location by manually adjusting the white sphere in PyMOL. Once satisfied, redraw the box using:**
     ```python
     Box('sele', X_size, Y_size, Z_size)
     ```
@@ -165,16 +170,19 @@ python3 autodock.py -s <XXX> True -f <Number>
    ```
    Use `-r` or `-l` individually if preparing only one file.
 
-2. **Multiple Ligands:**
+2. **Multiple Ligands in One File:**
    ```bash
    python3 autodock.py -p -l path/to/Ligands/*.pdb
    ```
 
-3. **Library of Ligands (ZINC or FDA-approved):** Follow additional instructions for downloading and segmenting files as described in the original documentation.
+3. **Extremely Large Library of Ligands (ZINC or FDA-approved):**
+Be very careful with this. It's possible that this process could create many millions of ligand files, which would crash the system and make it unusable. Do not do this if you aren't certain of how it works.
+For this reason, you must refer to the other file on virtual screening in this repository (yet to be added, with link).
+
 
 ---
 
-### 4. Run Autodock
+### 4. Run 
 
 1. **Single Docking:**
    ```bash
