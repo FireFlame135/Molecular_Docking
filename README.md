@@ -1,4 +1,4 @@
-# README for Docking Simulations with autodock.py 
+# README for Docking Simulations With autodock.py 
 
 ---
 
