@@ -2,7 +2,7 @@
 
 > **Important Notice:**  
 > **This document is intended for advanced users only.**  
-> **Please read [README.md](README.md) first** for general instructions and overall project context. This file supplements the main documentation and contains commands that, if misused, can quickly fill up your quota. Only proceed if you are confident in what you're doing.
+> **Please read [README.md](README.md) first** for general instructions. This file supplements the main documentation and contains commands that, if misused, can quickly fill up your quota. Only proceed if you are confident in what you're doing.
 
 ---
 
@@ -12,15 +12,18 @@ This document details the steps to prepare ligand libraries and run virtual scre
 
 ---
 
-## ⚠️ Caution
+## ⚠️ **CAUTION** ⚠️
 
 Before downloading or processing ligand files **from ZINC15**, please note:
 
-1. **grp_MolecularDock Quota (40GB):**  
+1. **grp_MolecularDock Quota (40GB with a maximum of 1,000,000 files):**  
    - **Do not run the command in [Section 1](#1-preparing-a-library-of-ligands-from-zinc15)** if you risk filling the 40GB quota. An unchecked command may fill the entire quota, leaving no space for other operations.
 
 2. **Archive Quota (20TB with a 2,000,000 file limit):**  
    - If you expect more than 2,000,000 ligand files, split the ligands into smaller segments. Exceeding this limit will cause the process to fail.
+
+3. **Search Existing Libraries:**  
+   - Before downloading large ligand libraries, search the supercomputer for existing libraries. Use winSCP for the easiest searching experience.
 
 ---
 
